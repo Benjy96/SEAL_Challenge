@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.file-download {
+  margin-bottom: 1rem;
+}
+
+.file-download form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.file-download label,
+.file-download input,
+.file-download button {
+  margin-bottom: 0.5rem;
+}
+

@@ -22,7 +22,7 @@ function DocumentUpload() {
         const formData = new FormData();
         formData.append('file', selectedFile);
 
-        axiosInstance.post('/documents/upload', formData)
+        axiosInstance.post('/upload', formData)
           .then((response) => {
             alert('File uploaded successfully!');
             setSelectedFile(null); // Clear the selected file
