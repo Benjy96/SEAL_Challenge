@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "h:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj": {}
+    "H:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj": {}
   },
   "projects": {
-    "h:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj": {
+    "H:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "h:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj",
+        "projectUniqueName": "H:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj",
         "projectName": "DocumentLibrary.Backend",
-        "projectPath": "h:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj",
+        "projectPath": "H:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\DocumentLibrary.Backend.csproj",
         "packagesPath": "C:\\Users\\Ben\\.nuget\\packages\\",
-        "outputPath": "h:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\obj\\",
+        "outputPath": "H:\\Projects\\SEAL_Challenge\\DocumentLibrary.Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ben\\AppData\\Roaming\\NuGet\\NuGet.Config",
