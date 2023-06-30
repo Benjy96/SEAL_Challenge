@@ -52,6 +52,50 @@ public class DocumentsController : ControllerBase
         return documents;
     }
 
+    [HttpGet("{fileName}")]
+    public IActionResult Download(string fileName)
+    {
+        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), UploadDirectory);
+        var filePath = Path.Combine(uploadPath, fileName);
+
+        if (!System.IO.File.Exists(filePath))
+        {
+            return NotFound();
+        }
+
+        var fileBytes = System.IO.File.ReadAllBytes(filePath);
+        var fileType = GetFileType(fileName);
+
+        return File(fileBytes, fileType, fileName);
+    }
+
+    private string GetFileType(string fileName)
+    {
+        var extension = Path.GetExtension(fileName);
+
+        // Map file extensions to MIME types
+        switch (extension.ToLower())
+        {
+            case ".pdf":
+                return "application/pdf";
+            case ".xls":
+            case ".xlsx":
+                return "application/vnd.ms-excel";
+            case ".doc":
+            case ".docx":
+                return "application/msword";
+            case ".txt":
+                return "text/plain";
+            case ".jpg":
+            case ".jpeg":
+                return "image/jpeg";
+            case ".png":
+                return "image/png";
+            default:
+                return "application/octet-stream";
+        }
+    }
+
 
     [HttpPost("upload")]
     public async Task<IActionResult> Upload(IFormFile file)
