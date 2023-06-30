@@ -21,7 +21,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors(builder => builder
-    .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials()
