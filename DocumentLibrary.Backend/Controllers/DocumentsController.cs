@@ -14,9 +14,9 @@ public class DocumentsController : ControllerBase
     }
 
     /// <summary>
-    /// Status: Stubbed
+    /// Status: Reading from server storage
     /// </summary>
-    /// <returns>Dummy data</returns>
+    /// <returns>Saved files' metadata</returns>
     [HttpGet]
     public IActionResult GetDocumentList()
     {
@@ -28,24 +28,30 @@ public class DocumentsController : ControllerBase
 
     private List<Document> GetAvailableDocuments()
     {
-        var documents = new List<Document>
+        var documents = new List<Document>();
+
+        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), UploadDirectory);
+
+        // Get all files in the upload directory
+        var files = Directory.GetFiles(uploadPath);
+
+        foreach (var filePath in files)
         {
-            new Document
+            var fileInfo = new FileInfo(filePath);
+
+            var document = new Document
             {
-                Name = "Document 1",
-                Type = "PDF",
-                UploadDate = DateTime.Now.AddDays(-1),
-            },
-            new Document
-            {
-                Name = "Document 2",
-                Type = "Word",
-                UploadDate = DateTime.Now.AddDays(-2),
-            }
-        };
+                Name = fileInfo.Name,
+                Type = Path.GetExtension(fileInfo.Name).TrimStart('.'),
+                UploadDate = fileInfo.LastWriteTime
+            };
+
+            documents.Add(document);
+        }
 
         return documents;
     }
+
 
     [HttpPost("upload")]
     public async Task<IActionResult> Upload(IFormFile file)
