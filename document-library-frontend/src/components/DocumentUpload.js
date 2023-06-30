@@ -42,6 +42,7 @@ function DocumentUpload() {
 
   return (
     <div>
+      <h2>Document Upload</h2>
       <input type="file" accept=".pdf,.xls,.xlsx,.doc,.docx,.txt,.jpg,.jpeg,.png" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
     </div>
