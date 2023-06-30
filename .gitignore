@@ -1,3 +1,4 @@
-/upload
-/bin/
-/debug/
+**/upload/
+**/bin/
+**/debug/
+**/obj/
