@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance.js';
 
 function DocumentUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -22,13 +22,12 @@ function DocumentUpload() {
         const formData = new FormData();
         formData.append('file', selectedFile);
 
-        axios.post('/api/documents', formData)
+        axiosInstance.post('/documents/upload', formData)
           .then((response) => {
             alert('File uploaded successfully!');
             setSelectedFile(null); // Clear the selected file
           })
           .catch((error) => {
-            // Handle error
             console.error('Error uploading document:', error);
             alert('Error uploading document. Please try again.');
           });
