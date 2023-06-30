@@ -3,29 +3,47 @@ import axios from 'axios';
 
 function DocumentUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const allowedFileTypes = ['application/pdf', 'application/vnd.ms-excel', 'application/msword', 'text/plain', 'image/jpeg', 'image/png'];
+  const invalidFileTypeError = 'Invalid file type. Please select a PDF, Excel, Word, TXT, JPEG, or PNG file.';
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file && allowedFileTypes.includes(file.type)) {
+      setSelectedFile(file);
+    } else {
+      setSelectedFile(null);
+      alert(invalidFileTypeError);
+    }
   };
 
   const handleUpload = () => {
-    const formData = new FormData();
-    formData.append('file', selectedFile);
+    if (selectedFile) {
+      if (allowedFileTypes.includes(selectedFile.type)) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
 
-    axios.post('/api/documents', formData)
-      .then((response) => {
-        // Handle success response
-        console.log('Document uploaded successfully');
-      })
-      .catch((error) => {
-        // Handle error
-        console.error('Error uploading document:', error);
-      });
+        axios.post('/api/documents', formData)
+          .then((response) => {
+            alert('File uploaded successfully!');
+            setSelectedFile(null); // Clear the selected file
+          })
+          .catch((error) => {
+            // Handle error
+            console.error('Error uploading document:', error);
+            alert('Error uploading document. Please try again.');
+          });
+      } else {
+        alert(invalidFileTypeError);
+      }
+    } else {
+      console.error('No file selected.');
+      alert('Please select a valid file type to upload.');
+    }
   };
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} />
+      <input type="file" accept=".pdf,.xls,.xlsx,.doc,.docx,.txt,.jpg,.jpeg,.png" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
     </div>
   );
