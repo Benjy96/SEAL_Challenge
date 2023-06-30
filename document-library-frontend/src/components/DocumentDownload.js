@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../utils/axiosInstance.js';
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../utils/axiosInstance.js";
 
 const DocumentDownload = () => {
-  const [fileName, setFileName] = useState('');
-  const [fileContent, setFileContent] = useState('');
+  const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(10);
 
@@ -12,7 +11,12 @@ const DocumentDownload = () => {
 
     if (loading) {
       countdownInterval = setInterval(() => {
-        setTimeRemaining((prevTime) => prevTime - 1);
+        setTimeRemaining((prevTime) => {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          }
+          return prevTime;
+        });
       }, 1000);
     }
 
@@ -25,25 +29,35 @@ const DocumentDownload = () => {
     e.preventDefault();
 
     try {
-      setLoading(true); // Set loading state to true
+      setLoading(true);
 
       const timeoutPromise = new Promise((resolve, reject) => {
         setTimeout(() => {
-          reject(new Error('Request timed out')); // Reject the promise after 10 seconds
+          reject(new Error("Request timed out"));
         }, 10000);
       });
 
-      const downloadPromise = axiosInstance.get(`/${fileName}`);
+      const downloadPromise = axiosInstance.get(`/${fileName}`, {
+        responseType: "blob" // Set the response type to 'blob'
+      });
 
       const response = await Promise.race([timeoutPromise, downloadPromise]);
 
-      setFileContent(response.data);
+      const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", fileName); // Use the entered file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
-      console.error('Error downloading file:', error);
-      setFileContent('Error downloading file. Please try again.');
+      console.error("Error downloading file:", error);
     } finally {
-      setLoading(false); // Set loading state back to false
-      setTimeRemaining(10); // Reset the timer
+      setLoading(false);
+      setTimeRemaining(10);
     }
   };
 
@@ -62,15 +76,8 @@ const DocumentDownload = () => {
 
       {loading && (
         <div>
-          <div>Loading...</div>
+          <div>Downloading...</div>
           <div>Time remaining: {timeRemaining} seconds</div>
-        </div>
-      )}
-
-      {fileContent && !loading && (
-        <div>
-          <h3>File Content:</h3>
-          <pre>{fileContent}</pre>
         </div>
       )}
     </div>
