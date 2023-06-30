@@ -1,3 +1,4 @@
+using DocumentLibrary.Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentLibrary.Backend.Controllers;
@@ -10,6 +11,40 @@ public class DocumentsController : ControllerBase
 
     public DocumentsController()
     {
+    }
+
+    /// <summary>
+    /// Status: Stubbed
+    /// </summary>
+    /// <returns>Dummy data</returns>
+    [HttpGet]
+    public IActionResult GetDocumentList()
+    {
+        // Get the list of available documents from your data source
+        List<Document> documents = GetAvailableDocuments();
+
+        return Ok(documents);
+    }
+
+    private List<Document> GetAvailableDocuments()
+    {
+        var documents = new List<Document>
+        {
+            new Document
+            {
+                Name = "Document 1",
+                Type = "PDF",
+                UploadDate = DateTime.Now.AddDays(-1),
+            },
+            new Document
+            {
+                Name = "Document 2",
+                Type = "Word",
+                UploadDate = DateTime.Now.AddDays(-2),
+            }
+        };
+
+        return documents;
     }
 
     [HttpPost("upload")]
